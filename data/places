@@ -1,0 +1,19 @@
+{
+  "moscow": [
+    {
+      "id": "pushkinNaPushke",
+      "name": "???????? ???????",
+      "url": "https://www.google.ru/maps/place/Pushkin+Monument/@55.7652923,37.6031421,17z/data=!3m1!4b1!4m5!3m4!1s0x46b54a47305408eb:0x134aafadf9707174!8m2!3d55.7652923!4d37.6053308",
+      "stationList": [
+        "??????????",
+        "????????"
+      ],
+      "discription": ""
+    },
+    {
+      "url": "ya.ru",
+      "name": "???",
+      "discription": ""
+    }
+  ]
+}
