@@ -1,4 +1,6 @@
-
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -14,7 +16,9 @@ import static java.lang.System.out;
 
 public class telegaBot extends TelegramLongPollingBot {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+
+
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
@@ -38,6 +42,7 @@ public class telegaBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        city Moscow = new city();
         Message message = update.getMessage();
 
         subway MoscowSubway = new subway();
@@ -50,19 +55,32 @@ public class telegaBot extends TelegramLongPollingBot {
                     sendMsg(message, "Привет, "+ firstName+ "! Просто напиши мне название станции и я расскажу что там есть. ");
                 } else {
                     if (MoscowSubway.isStation(message.getText())) {
-                        sendMsg(message, "Я знаю такую станцию метро!");
+                        try {
+                            sendMsg(  message,makeMessage( Moscow.getPlacesList(message.getText()) )  );
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
                     } else {
                         sendMsg(message, "Я не знаю такую станцию метро!");
                     }
                 }
 
-
-
             }
         }
 
 
+private String makeMessage(ArrayList<place> places) {
+    String str="";
+    for (int i=0;i<places.size();i++)
+        str= str+ places.get(i).name+"  "+ onMap(places.get(i).url)+"\n";
+    return str;
+}
 
+private String onMap(String url){
+
+        return "[На карте]("+url+")";
+}
 
     private void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
