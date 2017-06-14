@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="telegaBot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/telegaBot_jar</output-path>
+    <root id="archive" name="telegaBot.jar">
+      <element id="module-output" name="telegaBot" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jars/telegrambots-3.0.1-jar-with-dependencies.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jars/gson-2.6.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
