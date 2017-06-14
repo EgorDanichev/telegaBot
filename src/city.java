@@ -19,12 +19,13 @@ public class city {
 
           String id =placesList().get(j).getAsJsonObject().get("id").getAsString();
           String name = placesList().get(j).getAsJsonObject().get("name").getAsString();
-          String url = placesList().get(j).getAsJsonObject().get("url").getAsString();
-          String description = placesList().get(j).getAsJsonObject().get("description").getAsString();
+          float latitude = placesList().get(j).getAsJsonObject().get("latitude").getAsFloat();
+          float longitude = placesList().get(j).getAsJsonObject().get("longitude").getAsFloat();
+          String notes = placesList().get(j).getAsJsonObject().get("notes").getAsString();
 
 
-            if (Arrays.asList(setStationList(placesList(),j)).contains(Station)) {
-                places.add( new place(id,name,url,setStationList(placesList(),j),description));
+            if (Arrays.asList(setStationList(placesList(),j)).contains(Station.toUpperCase())) {
+                places.add( new place(id,name,latitude,longitude,setStationList(placesList(),j),notes));
             }
 
         }
@@ -40,7 +41,7 @@ public String[] setStationList(JsonArray jsonArray,int j){
         try {
             JsonObject placeJson= jsonArray.get(j).getAsJsonObject();
             JsonArray stationListJson= placeJson.get("stationList").getAsJsonArray();
-            stationList[i] = stationListJson.get(i).getAsString();
+            stationList[i] = stationListJson.get(i).getAsString().toUpperCase();
         } catch (IndexOutOfBoundsException ignored) {
         }
     }
@@ -53,11 +54,11 @@ private JsonArray placesList() throws FileNotFoundException,IndexOutOfBoundsExce
 
     JsonParser parser = new JsonParser();
 
-        JsonElement jsonElement = parser.parse( new FileReader("C:\\git\\telegaBotz\\data\\places"));
+        JsonElement jsonElement = parser.parse( new FileReader("C:\\git\\telegaBot\\data\\places"));
 
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
 
-        return jsonArray;
+        return jsonElement.getAsJsonArray();
+
         }
 
 }

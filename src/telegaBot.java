@@ -3,9 +3,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendVenue;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -56,7 +59,7 @@ public class telegaBot extends TelegramLongPollingBot {
                 } else {
                     if (MoscowSubway.isStation(message.getText())) {
                         try {
-                            sendMsg(  message,makeMessage( Moscow.getPlacesList(message.getText()) )  );
+                            sendPlaces(message);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -70,19 +73,30 @@ public class telegaBot extends TelegramLongPollingBot {
         }
 
 
-private String makeMessage(ArrayList<place> places) {
-    String str="";
-    for (int i=0;i<places.size();i++)
-        str= str+ places.get(i).name+"  "+ onMap(places.get(i).url)+"\n";
-    return str;
-}
+private void sendPlaces(Message message) throws FileNotFoundException {
 
-private String onMap(String url){
+    city Moscow = new city();
+    ArrayList<place> places = Moscow.getPlacesList(message.getText());
 
-        return "[На карте]("+url+")";
-}
 
-    private void sendMsg(Message message, String text) {
+        if (!places.isEmpty()){
+            for (int i=0;i<places.size();i++) {
+              sendMsg(message,"*"+places.get(i).name+"*\n"+places.get(i).notes);
+              sendMap(message,places.get(i));
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+private void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
@@ -93,5 +107,23 @@ private String onMap(String url){
             e.printStackTrace();
         }
     }
+
+
+
+private void sendMap(Message message, place place) {
+        SendVenue sendVenue = new SendVenue();
+        sendVenue.setLatitude(place.latitude);
+        sendVenue.setLongitude(place.longitude);
+        sendVenue.setTitle(place.name);
+        sendVenue.setChatId(message.getChatId().toString());
+        sendVenue.setAddress("");
+        try {
+            sendVenue(sendVenue);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

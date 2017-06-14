@@ -6,16 +6,17 @@ public class place {
 
    String id;
    String name;
-   String url;
+   float latitude;
+   float longitude;
    String[] stationList;
-   String description;
+   String notes;
 
-    public place(String id, String name, String url, String[] stationList, String description) {
+    public place(String id, String name, float latitude, float longitude, String[] stationList, String notes) {
         this.id = id;
         this.name = name;
-        this.url = url;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.stationList = stationList;
-        this.description = description;
+        this.notes = notes;
     }
-
 }
