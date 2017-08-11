@@ -54,9 +54,7 @@ private JsonArray placesList() throws FileNotFoundException,IndexOutOfBoundsExce
 
     JsonParser parser = new JsonParser();
 
-        JsonElement jsonElement = parser.parse( new FileReader("C:\\git\\telegaBot\\data\\places"));
-
-
+        JsonElement jsonElement = parser.parse( new FileReader("data/places"));
         return jsonElement.getAsJsonArray();
 
         }
